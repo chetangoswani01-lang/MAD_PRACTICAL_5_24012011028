@@ -27,6 +27,7 @@ fun FormField(
     isPasswordField: Boolean = false,
     isNumber: Boolean = false
 ) {
+    val isNumField = isNumber || label.contains("Phone", ignoreCase = true) || label.contains("Number", ignoreCase = true)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,7 +44,7 @@ fun FormField(
         OutlinedTextField(
             value = textState,
             onValueChange = { newValue ->
-                if (!isNumber || newValue.all { it.isDigit() }) {
+                if (!isNumField || newValue.all { it.isDigit() }) {
                     onTextChange(newValue)
                 }
             },
@@ -68,8 +69,8 @@ fun FormField(
             keyboardOptions = KeyboardOptions(
                 keyboardType = when {
                     isPasswordField -> KeyboardType.Password
-                    isNumber -> KeyboardType.Number
-                    label == "Email" -> KeyboardType.Email
+                    isNumField -> KeyboardType.Number
+                    label.equals("Email", ignoreCase = true) -> KeyboardType.Email
                     else -> KeyboardType.Text
                 }
             )

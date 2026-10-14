@@ -10,14 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -31,9 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +58,8 @@ fun RegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .safeDrawingPadding()
             .padding(horizontal = 20.dp)
     ) {
         Spacer(modifier = Modifier.height(20.dp))
@@ -84,7 +84,7 @@ fun RegisterScreen(
                     .padding(20.dp)
             ) {
                 FormField("Name", fullName, onTextChange = { fullName = it })
-                FormField("Phone Number", phone, onTextChange = { phone = it })
+                FormField("Phone Number", phone, onTextChange = { phone = it }, isNumber = true)
                 FormField("City", city, onTextChange = { city = it })
                 FormField("Email", email, onTextChange = { email = it })
                 FormField("Password", password, onTextChange = { password = it }, isPasswordField = true)
@@ -114,16 +114,17 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.width(20.dp))
             TextButton(
                 onClick = {
-                    navController.navigate("login")
+                    if (!navController.popBackStack()) {
+                        navController.navigate("login")
+                    }
                 }
             ) {
                 Text("Login", fontSize = 18.sp)
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
-
-
 
 @Composable
 @Preview(showBackground = true)

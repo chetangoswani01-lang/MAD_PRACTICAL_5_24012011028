@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -51,6 +54,8 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .safeDrawingPadding()
             .padding(horizontal = 20.dp)
     ) {
         Spacer(modifier = Modifier.height(20.dp))
@@ -113,13 +118,7 @@ fun LoginScreen(
                 Text("SIGN UP", color = Pink40, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
         }
-    }
-}
-fun navigateToRegister(navController: NavController) {
-    navController.navigate("register"){
-        popUpTo("login"){
-            inclusive = true
-        }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
